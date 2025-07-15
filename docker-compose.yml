@@ -1,0 +1,37 @@
+services:
+  php:
+    container_name: ${DOCKER_PROJECT_NAME}_php
+    image: php:8.4.10-apache-bullseye@sha256:c051ee7a0f409deab26171c92eaf5462c5b00132b5a4355e720a34f4ebee95c5
+    ports:
+      - "80:80"
+    volumes:
+      - ${DOCKER_PROJECT_PATH}/:/var/www/html
+      - ${DOCKER_PROJECT_PATH}/.docker/php/logs:/var/log
+      - ${DOCKER_PROJECT_PATH}/.docker/php/config/php.ini:/usr/local/etc/php/php.ini
+      - ${DOCKER_PROJECT_PATH}/.docker/php/config/apache2.conf:/etc/apache2/apache2.conf
+    links:
+      - db
+    restart: always
+    networks:
+      - docker_default
+
+  db:
+    container_name: ${DOCKER_PROJECT_NAME}_db
+    platform: linux/amd64
+    image: mysql:8.0.28
+    volumes:
+      - ${DOCKER_PROJECT_PATH}/db:/var/lib/mysql
+      - ${DOCKER_PROJECT_PATH}/.docker/db/config/mysql_custom.conf:/etc/mysql/conf.d/mysql_custom.conf
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DOCKER_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${DOCKER_PROJECT_NAME}
+      MYSQL_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${DOCKER_PROJECT_NAME}
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - docker_default
+
+networks:
+  docker_default:
+    external: true
