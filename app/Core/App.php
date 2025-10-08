@@ -8,6 +8,6 @@ class App
 {
     public function run(): void
     {
-        echo 'Hello World!';
+        throw new \Exception('Error');
     }
 }
