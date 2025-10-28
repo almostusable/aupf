@@ -38,3 +38,8 @@ RUN apt-get install -y librabbitmq-dev
 # Instalace rozšíření amqp přes PECL
 RUN pecl install amqp && \
     docker-php-ext-enable amqp
+
+# Install yaml extension dependencies and extension
+RUN apt-get install -y libyaml-dev && \
+    pecl install yaml && \
+    docker-php-ext-enable yaml

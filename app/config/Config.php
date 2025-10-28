@@ -8,7 +8,8 @@ class Config
 {
     protected array $config = [
         'app' => [
-            'name' => 'Aupf'
+            'name' => 'Aupf',
+            'routes' => __DIR__ . '/../../routes/web.yaml'
         ]
     ];
 

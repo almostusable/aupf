@@ -1,7 +1,9 @@
 services:
   php:
     container_name: ${DOCKER_PROJECT_NAME}_php
-    image: php:8.4.10-apache-bullseye@sha256:c051ee7a0f409deab26171c92eaf5462c5b00132b5a4355e720a34f4ebee95c5
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     volumes:

@@ -6,6 +6,7 @@ use App\config\Config;
 use App\Core\App;
 use App\Core\Container;
 use App\Providers\ConfigServiceProvider;
+use App\Routing\RouteRegistrar;
 use Dotenv\Dotenv;
 use League\Container\ReflectionContainer;
 
@@ -23,9 +24,8 @@ $config = $container->get(Config::class);
 foreach ($config->get('app.providers') as $provider) {
     $container->addServiceProvider(new $provider());
 }
-
+$routeRegistrar = $container->get(RouteRegistrar::class);
 
 $app = new App($container);
-(require __DIR__ . '/../routes/web.php')($app->getRouter(), $container);
-
+$routeRegistrar->register();
 $app->run();

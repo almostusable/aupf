@@ -30,7 +30,7 @@ class App
             throw $e;
         }
 
-        new SapiEmitter()->emit($response);
+        (new SapiEmitter())->emit($response);
     }
 
     public function getRequest(): ServerRequestInterface
