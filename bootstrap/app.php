@@ -20,10 +20,12 @@ $container->addServiceProvider(new ConfigServiceProvider());
 
 $config = $container->get(Config::class);
 
-
 foreach ($config->get('app.providers') as $provider) {
     $container->addServiceProvider(new $provider());
 }
 
-$app = new App();
+
+$app = new App($container);
+(require __DIR__ . '/../routes/web.php')($app->getRouter(), $container);
+
 $app->run();

@@ -8,7 +8,7 @@ class Config
 {
     protected array $config = [
         'app' => [
-            'name' => 'My App'
+            'name' => 'Aupf'
         ]
     ];
 
