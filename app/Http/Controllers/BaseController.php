@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\config\Config;
+use App\View\View;
 use Laminas\Diactoros\Response;
-use Psr\Http\Message\ServerRequestInterface;
 
-class HomeController
+class BaseController
 {
     public function __construct(
-        private Config $config,
-    )
-    {
+        private View $view,
+    ) {
     }
 
-    public function __invoke(ServerRequestInterface $request): Response
+    protected function render(
+        string $template,
+        array $data = []
+    ): Response
     {
         $response = new Response();
         $response->getBody()->write(
-            $this->config->get('app.name')
+            $this->view->render($template, $data)
         );
 
         return $response;

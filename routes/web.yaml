@@ -1,6 +1,6 @@
 homepage:
   path: /
-  controller: App\Http\Controllers\HomeController
-about:
-  path: /about
-  controller: App\Http\Controllers\AboutController
+  controller: App\Http\Controllers\DashboardController
+dashboard:
+  path: /dashboard
+  controller: App\Http\Controllers\DashboardController

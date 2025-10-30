@@ -38,7 +38,6 @@ class RouteServiceProvider extends AbstractServiceProvider implements BootableSe
 
     public function boot(): void
     {
-//        $this->getContainer()->get(RouteRegistrar::class)->register();
     }
 
     public function provides(string $id): bool

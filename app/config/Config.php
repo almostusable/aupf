@@ -6,12 +6,19 @@ namespace App\config;
 
 class Config
 {
-    protected array $config = [
-        'app' => [
-            'name' => 'Aupf',
-            'routes' => __DIR__ . '/../../routes/web.yaml'
-        ]
-    ];
+    protected array $config = [];
+
+    public function __construct()
+    {
+        $this->config = [
+            'app' => [
+                'name' => $_ENV['APP_NAME'] ?? 'Aupf',
+                'routes' => __DIR__ . '/../../routes/web.yaml',
+                'templates' => __DIR__ . '/../../templates',
+                'debug' => filter_var($_ENV['APP_DEBUG'] ?? 'false', FILTER_VALIDATE_BOOLEAN),
+            ]
+        ];
+    }
 
     public function get(string $key, $default = null)
     {
