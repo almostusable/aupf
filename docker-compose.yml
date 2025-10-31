@@ -1,16 +1,16 @@
 services:
   php:
-    container_name: ${DOCKER_PROJECT_NAME}_php
+    container_name: aupf_php
     build:
       context: .docker/php
       dockerfile: Dockerfile
     ports:
       - "80:80"
     volumes:
-      - ${DOCKER_PROJECT_PATH}/:/var/www/html
-      - ${DOCKER_PROJECT_PATH}/.docker/php/logs:/var/log
-      - ${DOCKER_PROJECT_PATH}/.docker/php/config/php.ini:/usr/local/etc/php/php.ini
-      - ${DOCKER_PROJECT_PATH}/.docker/php/config/apache2.conf:/etc/apache2/apache2.conf
+      - ./:/var/www/html
+      - ./.docker/php/logs:/var/log
+      - ./.docker/php/config/php.ini:/usr/local/etc/php/php.ini
+      - ./.docker/php/config/apache2.conf:/etc/apache2/apache2.conf
     links:
       - db
     restart: always
@@ -18,18 +18,18 @@ services:
       - docker_default
 
   db:
-    container_name: ${DOCKER_PROJECT_NAME}_db
+    container_name: aupf_db
     platform: linux/amd64
     image: mysql:8.0.28
+    ports:
+      - "3306:3306"
     volumes:
-      - ${DOCKER_PROJECT_PATH}/db:/var/lib/mysql
-      - ${DOCKER_PROJECT_PATH}/.docker/db/config/mysql_custom.conf:/etc/mysql/conf.d/mysql_custom.conf
+      - ./db:/var/lib/mysql
+      - ./.docker/db/config/mysql_custom.conf:/etc/mysql/conf.d/mysql_custom.conf
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DOCKER_MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${DOCKER_PROJECT_NAME}
-      MYSQL_PASSWORD: ${DOCKER_MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${DOCKER_PROJECT_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     networks:
       - docker_default
